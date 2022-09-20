@@ -1,0 +1,95 @@
+<template>
+  <form
+    key="login"
+    @submit.prevent="login"
+    class="flex flex-col items-center justify-center gap-4 w-80"
+  >
+    <div class="h-8 w-8 mb-4">
+      <logo />
+    </div>
+    <input
+      v-model="email"
+      type="text"
+      placeholder="Email address"
+      class="input input-bordered w-full"
+    />
+    <input
+      v-model="password"
+      type="password"
+      placeholder="Password"
+      class="input input-bordered w-full"
+    />
+    <span class="text-sm">
+      Don't have an account?
+      <nuxt-link to="/signup" class="text-accent">Sign up</nuxt-link>
+    </span>
+    <button class="btn btn-primary mt-4" type="submit">Login</button>
+  </form>
+</template>
+
+<script setup>
+import { useProfileStore } from '@/store/profile';
+
+definePageMeta({
+  layout: 'base',
+  title: 'Login',
+  middleware: 'auth',
+});
+
+const { $toast } = useNuxtApp();
+const client = useSupabaseClient();
+const user = useSupabaseUser();
+const store = useProfileStore();
+
+const email = ref('');
+const password = ref('');
+
+async function login() {
+  const { error } = await client.auth.signIn({
+    email: email.value,
+    password: password.value,
+  });
+  if (error) $toast(error.message, 'error');
+  const { data: profile } = await useFetch('/api/profile');
+  store.setProfile(profile.value);
+}
+
+watchEffect(() => {
+  setTimeout(() => {
+    if (user.value) navigateTo('/');
+  }, 5000);
+});
+</script>
+
+<style>
+.container {
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.title {
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  display: block;
+  font-weight: 300;
+  font-size: 100px;
+  color: #35495e;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-weight: 300;
+  font-size: 42px;
+  color: #526488;
+  word-spacing: 5px;
+  padding-bottom: 15px;
+}
+
+.links {
+  padding-top: 15px;
+}
+</style>

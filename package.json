@@ -1,0 +1,29 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxtjs/color-mode": "^3.1.5",
+    "@nuxtjs/supabase": "^0.1.25",
+    "@nuxtjs/tailwindcss": "^5.3.3",
+    "@nuxtjs/toast": "^3.3.1",
+    "@pinia/nuxt": "^0.4.2",
+    "@prisma/client": "^4.3.1",
+    "@vueuse/core": "^9.2.0",
+    "daisyui": "^2.27.0",
+    "nuxt": "3.0.0-rc.10",
+    "nuxt-icon": "^0.1.5",
+    "pinia-plugin-persistedstate": "^2.2.0",
+    "save": "^2.5.0",
+    "vue-toastification": "^2.0.0-rc.5",
+    "webpack": "5.0.0"
+  },
+  "devDependencies": {
+    "@vueuse/nuxt": "^9.2.0"
+  }
+}

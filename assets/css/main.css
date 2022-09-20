@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.router-link-active {
+  @apply bg-primary text-primary-content rounded-md;
+}
+
+#gradient-horizontal {
+  --color-stop-1: hsl(var(--s));
+  --color-stop-2: hsl(var(--p));
+}
+
+.logo {
+  fill: url(#gradient-horizontal) red;
+}
+
+.table :where(tbody th, tbody td, thead th) {
+  --tw-bg-opacity: 1;
+  background-color: transparent;
+}
