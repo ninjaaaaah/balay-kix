@@ -1,30 +1,37 @@
 <template>
-  <form
-    key="login"
-    @submit.prevent="login"
-    class="flex flex-col items-center justify-center gap-4 w-80"
-  >
-    <div class="h-8 w-8 mb-4">
-      <logo />
+  <div class="w-full h-full flex items-center justify-between">
+    <div class="w-1/2 flex justify-center items-center">
+      <form
+        key="login"
+        @submit.prevent="login"
+        class="flex flex-col items-center justify-center gap-4 w-80"
+      >
+        <div class="h-8 w-8 mb-4">
+          <logo />
+        </div>
+        <input
+          v-model="email"
+          type="text"
+          placeholder="Email address"
+          class="input input-bordered w-full"
+        />
+        <input
+          v-model="password"
+          type="password"
+          placeholder="Password"
+          class="input input-bordered w-full"
+        />
+        <span class="text-sm">
+          Don't have an account?
+          <nuxt-link to="/signup" class="text-accent">Sign up</nuxt-link>
+        </span>
+        <button class="btn btn-primary mt-4" type="submit">Login</button>
+      </form>
     </div>
-    <input
-      v-model="email"
-      type="text"
-      placeholder="Email address"
-      class="input input-bordered w-full"
-    />
-    <input
-      v-model="password"
-      type="password"
-      placeholder="Password"
-      class="input input-bordered w-full"
-    />
-    <span class="text-sm">
-      Don't have an account?
-      <nuxt-link to="/signup" class="text-accent">Sign up</nuxt-link>
-    </span>
-    <button class="btn btn-primary mt-4" type="submit">Login</button>
-  </form>
+    <div class="h-screen w-1/2 bg-primary">
+      <art />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -48,16 +55,21 @@ async function login() {
   const { error } = await client.auth.signIn({
     email: email.value,
     password: password.value,
+    initialCache: false,
   });
   if (error) $toast(error.message, 'error');
+
+  $toast('Successfully logged in!', 'success');
   const { data: profile } = await useFetch('/api/profile');
   store.setProfile(profile.value);
 }
 
 watchEffect(() => {
-  setTimeout(() => {
-    if (user.value) navigateTo('/');
-  }, 5000);
+  if (user.value) {
+    setTimeout(() => {
+      navigateTo('/');
+    }, 5000);
+  }
 });
 </script>
 

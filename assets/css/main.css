@@ -16,7 +16,28 @@
   fill: url(#gradient-horizontal) red;
 }
 
+.art-neutral {
+  --tw-text-opacity: 1;
+  fill: hsl(var(--bc) / var(--tw-text-opacity));
+}
+
+.art-primary {
+  fill: hsl(var(--pf));
+}
+
+.art-secondary {
+  fill: hsl(var(--s));
+}
+
+.art-accent {
+  fill: hsl(var(--a));
+}
+
 .table :where(tbody th, tbody td, thead th) {
   --tw-bg-opacity: 1;
   background-color: transparent;
+}
+
+.text-base-content {
+  --tw-text-opacity: 0.5;
 }

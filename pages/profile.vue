@@ -71,9 +71,12 @@
             class="input input-bordered w-full disabled:bg-base-100 disabled:text-[#9ca3af]"
           />
         </div>
-        <button class="btn btn-primary mt-4" type="submit">
-          Update Profile
-        </button>
+        <div class="w-full flex justify-end gap-4 mt-4">
+          <button class="btn btn-ghost" type="button">
+            <nuxt-link> Cancel </nuxt-link>
+          </button>
+          <button class="btn btn-primary" type="submit">Update Profile</button>
+        </div>
       </form>
     </div>
   </div>
@@ -105,7 +108,7 @@ async function updateProfile() {
     lastname: lastname.value,
     username: username.value,
   };
-  const { error, data } = await useFetch('/api/profile', {
+  const { error } = await useFetch('/api/profile', {
     method: 'PUT',
     body: body,
     initialCache: false,
