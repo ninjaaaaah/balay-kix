@@ -97,9 +97,7 @@ const store = useProfileStore();
 const user = supabase.auth.user();
 console.log(user.id);
 
-const { data: profile } = await useFetch('/api/profile', {
-  body: { uid: user.id },
-});
+const { data: profile } = await useFetch('/api/profile');
 
 // create refs from profile fields
 const firstname = ref(profile.value.firstname);
