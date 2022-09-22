@@ -2,6 +2,7 @@ import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
   ssr: false,
+  target: 'static',
   modules: [
     '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
