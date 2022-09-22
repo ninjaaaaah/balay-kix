@@ -26,6 +26,17 @@
           <nuxt-link to="/signup" class="text-accent">Sign up</nuxt-link>
         </span>
         <button class="btn btn-primary mt-4" type="submit">Login</button>
+        <button
+          class="btn btn-ghost bg-[#fff] mt-4 text-neutral"
+          @click="signInWithGithub"
+        >
+          <div class="w-6 h-6 mr-4">
+            <img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+            />
+          </div>
+          Sign In with GitHub
+        </button>
       </form>
     </div>
     <div class="h-screen w-1/2 bg-primary">
@@ -56,6 +67,21 @@ async function login() {
   const { error } = await client.auth.signIn({
     email: email.value,
     password: password.value,
+    initialCache: false,
+  });
+  if (error) $toast(error.message, 'error');
+
+  $toast('Successfully logged in!', 'success');
+  const { data: profile } = await useFetch('/api/profile', {
+    initialCache: false,
+  });
+  store.setProfile(profile.value);
+  isLoggedIn.value = true;
+}
+
+async function signInWithGithub() {
+  const { error } = await client.auth.signIn({
+    provider: 'github',
     initialCache: false,
   });
   if (error) $toast(error.message, 'error');
