@@ -15,9 +15,8 @@ prisma.$use(async (params, next) => {
 
 export default defineEventHandler(async (event) => {
   const user = await serverSupabaseUser(event);
-  if (!user) {
-    throw new Error('Not authorized');
-  }
+
+  console.log('Hello,', user);
 
   const profile = await prisma.profiles.findUnique({
     where: {
