@@ -155,6 +155,7 @@ const name = ref(store.firstname);
 console.log(name.value);
 
 async function logout() {
+  store.clearProfile();
   const { error } = await client.auth.signOut();
 }
 

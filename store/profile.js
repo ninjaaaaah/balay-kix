@@ -13,6 +13,11 @@ export const useProfileStore = defineStore({
       this.firstname = user.firstname;
       this.avatarlink = user.avatarlink;
     },
+    async clearProfile() {
+      this.uid = null;
+      this.firstname = null;
+      this.avatarlink = null;
+    },
   },
   getters: {
     getUID: (state) => state.uid,

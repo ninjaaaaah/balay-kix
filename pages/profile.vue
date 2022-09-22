@@ -94,7 +94,9 @@ definePageMeta({
 const { $toast } = useNuxtApp();
 const store = useProfileStore();
 
-const { data: profile } = await useFetch('/api/profile');
+const { data: profile } = await useFetch('/api/profile', {
+  headers: useRequestHeaders(['cookie']),
+});
 
 // create refs from profile fields
 const firstname = ref(profile.value.firstname);
@@ -112,6 +114,8 @@ async function updateProfile() {
     method: 'PUT',
     body: body,
     initialCache: false,
+
+    headers: useRequestHeaders(['cookie']),
   });
 
   if (error.value) {

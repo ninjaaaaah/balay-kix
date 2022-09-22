@@ -60,7 +60,9 @@ async function login() {
   if (error) $toast(error.message, 'error');
 
   $toast('Successfully logged in!', 'success');
-  const { data: profile } = await useFetch('/api/profile');
+  const { data: profile } = await useFetch('/api/profile', {
+    headers: useRequestHeaders(['cookie']),
+  });
   store.setProfile(profile.value);
 }
 
