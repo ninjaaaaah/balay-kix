@@ -14,6 +14,7 @@ export const useProfileStore = defineStore({
       this.avatarlink = user.avatarlink;
     },
     async clearProfile() {
+      console.log('Profile cleared!');
       this.uid = null;
       this.firstname = null;
       this.avatarlink = null;

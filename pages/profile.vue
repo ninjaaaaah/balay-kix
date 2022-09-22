@@ -92,10 +92,13 @@ definePageMeta({
 });
 
 const { $toast } = useNuxtApp();
+const supabase = useSupabaseClient();
 const store = useProfileStore();
+const user = supabase.auth.user();
+console.log(user.id);
 
 const { data: profile } = await useFetch('/api/profile', {
-  headers: useRequestHeaders(['cookie']),
+  body: { uid: user.id },
 });
 
 // create refs from profile fields
@@ -106,6 +109,7 @@ const email = ref(profile.value.email);
 
 async function updateProfile() {
   const body = {
+    uid: user.id,
     firstname: firstname.value,
     lastname: lastname.value,
     username: username.value,
@@ -114,8 +118,6 @@ async function updateProfile() {
     method: 'PUT',
     body: body,
     initialCache: false,
-
-    headers: useRequestHeaders(['cookie']),
   });
 
   if (error.value) {

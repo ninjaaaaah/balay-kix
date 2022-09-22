@@ -50,6 +50,7 @@ const store = useProfileStore();
 
 const email = ref('');
 const password = ref('');
+const isLoggedIn = ref(user.value);
 
 async function login() {
   const { error } = await client.auth.signIn({
@@ -61,16 +62,15 @@ async function login() {
 
   $toast('Successfully logged in!', 'success');
   const { data: profile } = await useFetch('/api/profile', {
-    headers: useRequestHeaders(['cookie']),
+    initialCache: false,
   });
   store.setProfile(profile.value);
+  isLoggedIn.value = true;
 }
 
 watchEffect(() => {
-  if (user.value) {
-    setTimeout(() => {
-      navigateTo('/');
-    }, 5000);
+  if (isLoggedIn.value) {
+    navigateTo('/');
   }
 });
 </script>

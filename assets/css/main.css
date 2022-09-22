@@ -41,3 +41,7 @@
 .text-base-content {
   --tw-text-opacity: 0.5;
 }
+
+tr > th {
+  font-weight: 500;
+}

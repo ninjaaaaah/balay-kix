@@ -14,7 +14,8 @@ prisma.$use(async (params, next) => {
 });
 
 export default defineEventHandler(async (event) => {
-  const user = await serverSupabaseUser(event);
+  const body = await useBody(event);
+  const user = (await serverSupabaseUser(event)) ?? body.uid;
   if (!user) {
     throw new Error('Not authorized');
   }

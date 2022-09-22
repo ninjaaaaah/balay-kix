@@ -9,10 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@vueuse/nuxt',
     'nuxt-icon',
-    [
-      '@pinia/nuxt',
-      { autoImports: ['defineStore', ['defineStore', 'definePiniaStore']] },
-    ],
+    ['@pinia/nuxt', { autoImports: ['defineStore'] }],
   ],
   colorMode: {
     preference: 'light',
@@ -20,8 +17,5 @@ export default defineNuxtConfig({
   },
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
-  },
-  router: {
-    linkActiveClass: 'active-link',
   },
 });
