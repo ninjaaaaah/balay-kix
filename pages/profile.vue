@@ -107,7 +107,6 @@ const email = ref(profile.value.email);
 
 async function updateProfile() {
   const body = {
-    uid: user.id,
     firstname: firstname.value,
     lastname: lastname.value,
     username: username.value,
