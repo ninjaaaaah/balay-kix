@@ -75,6 +75,7 @@ async function login() {
   const { data: profile } = await useFetch('/api/profile', {
     initialCache: false,
   });
+  console.log(profile);
   store.setProfile(profile.value);
   isLoggedIn.value = true;
 }

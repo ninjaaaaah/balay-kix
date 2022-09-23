@@ -18,4 +18,11 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
   },
+  supabase: {
+    client: {
+      cookieOptions: {
+        setCookie: true,
+      },
+    },
+  },
 });

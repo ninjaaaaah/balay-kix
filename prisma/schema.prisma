@@ -8,12 +8,70 @@ datasource db {
 }
 
 model profiles {
-  id         String    @id @db.Uuid
-  updatedat  DateTime? @db.Timestamptz(6)
+  id         String            @id @db.Uuid
+  updatedat  DateTime?         @db.Timestamptz(6)
   email      String?
-  username   String?   @unique
+  username   String?           @unique
   firstname  String?
   lastname   String?
   avatarlink String?
   website    String?
+  groups     groupenrollment[]
+  loans      transactions[]    @relation(name: "loan")
+  debts      transactions[]    @relation(name: "debt")
+}
+
+model group {
+  id           Int               @id @default(autoincrement()) @db.Oid
+  name         String
+  members      groupenrollment[]
+  transactions transactions[]
+  expenses     expenses[]
+}
+
+model groupenrollment {
+  createdAt DateTime        @default(now())
+  role      TransactionRole
+
+  // Relation Fields
+  userid  String   @db.Uuid
+  groupid Int      @db.Oid
+  user    profiles @relation(fields: [userid], references: [id])
+  group   group    @relation(fields: [groupid], references: [id])
+
+  @@id([userid, groupid])
+  @@index([userid, role])
+}
+
+model expenses {
+  id        Int      @id @default(autoincrement()) @db.Oid
+  updatedAt DateTime @updatedAt
+  name      String
+  date      DateTime
+
+  // Relation Fields
+  groupid      Int            @db.Oid
+  group        group          @relation(fields: [groupid], references: [id])
+  transactions transactions[]
+}
+
+model transactions {
+  id        Int      @id @default(autoincrement()) @db.Oid
+  createdAt DateTime @default(now())
+  paid      Boolean // Percentage precise to one decimal point represented as `result * 10^-1`
+
+  // Relation Fields
+  payeeid   String   @db.Uuid
+  payee     profiles @relation(name: "loan", fields: [payeeid], references: [id])
+  payorId   String   @db.Uuid
+  payor     profiles @relation(name: "debt", fields: [payorId], references: [id])
+  expenseid Int      @db.Oid
+  expense   expenses @relation(fields: [expenseid], references: [id])
+  group     group?   @relation(fields: [groupId], references: [id])
+  groupId   Int      @db.Oid
+}
+
+enum TransactionRole {
+  PAYEE
+  PAYOR
 }
