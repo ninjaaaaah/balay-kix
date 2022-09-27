@@ -15,5 +15,7 @@ definePageMeta({
   title: 'Transactions',
 });
 
-const { data: users } = await useFetch('/api/users');
+const { data: expense } = await useFetch('/api/expense', {
+  method: 'POST',
+});
 </script>

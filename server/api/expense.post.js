@@ -23,17 +23,21 @@ export default defineEventHandler(async (event) => {
     data: {
       name: 'Egg',
       cost: 40,
-      groupId: 1,
+      group: {
+        connect: {
+          id: 1,
+        },
+      },
       invoice: {
         create: {
-          payeeId: {
+          payee: {
             connect: {
-              id: '6f3fbd53-d79e-4743-a6cb-402dae36cf52',
+              id: 'd14ccbc1-4878-49fd-a8c3-5e881fcd1397',
             },
           },
-          payorId: {
+          payor: {
             connect: {
-              id: '4e39463f-e9b8-47cd-b15c-6dd91b59af21',
+              id: '83cb3b9a-9a57-41a7-ae8d-d6c4cf9d411a',
             },
           },
         },
