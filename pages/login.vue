@@ -69,13 +69,15 @@ async function login() {
     password: password.value,
     initialCache: false,
   });
-  if (error) $toast(error.message, 'error');
+  if (error) {
+    $toast(error.message, 'error');
+    return;
+  }
 
   $toast('Successfully logged in!', 'success');
   const { data: profile } = await useFetch('/api/profile', {
     initialCache: false,
   });
-  console.log(profile);
   store.setProfile(profile.value);
   isLoggedIn.value = true;
 }
@@ -85,7 +87,10 @@ async function signInWithGithub() {
     provider: 'github',
     initialCache: false,
   });
-  if (error) $toast(error.message, 'error');
+  if (error) {
+    $toast(error.message, 'error');
+    return;
+  }
 
   $toast('Successfully logged in!', 'success');
   const { data: profile } = await useFetch('/api/profile', {

@@ -1,4 +1,3 @@
-import { serverSupabaseUser } from '#supabase/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -15,16 +14,11 @@ prisma.$use(async (params, next) => {
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
-  const user = await serverSupabaseUser(event);
-  if (!user) {
-    throw new Error('Not authorized');
-  }
 
-  const { error, data } = await prisma.profiles.upsert({
-    where: {
-      id: user.id,
-    },
+  console.log(body);
+
+  const profile = await prisma.profiles.create({
     data: body,
   });
-  return { error, data };
+  return profile;
 });

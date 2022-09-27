@@ -14,17 +14,31 @@ prisma.$use(async (params, next) => {
 });
 
 export default defineEventHandler(async (event) => {
-  const body = await useBody(event);
   const user = await serverSupabaseUser(event);
   if (!user) {
     throw new Error('Not authorized');
   }
 
-  const { error, data } = await prisma.profiles.upsert({
-    where: {
-      id: user.id,
+  const expense = await prisma.expense.create({
+    data: {
+      name: 'Egg',
+      cost: 40,
+      groupId: 1,
+      invoice: {
+        create: {
+          payeeId: {
+            connect: {
+              id: '6f3fbd53-d79e-4743-a6cb-402dae36cf52',
+            },
+          },
+          payorId: {
+            connect: {
+              id: '4e39463f-e9b8-47cd-b15c-6dd91b59af21',
+            },
+          },
+        },
+      },
     },
-    data: body,
   });
-  return { error, data };
+  return expense;
 });

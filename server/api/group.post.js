@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  const course = await prisma.group.create({
+  const group = await prisma.group.create({
     data: {
       name: 'Sample Group',
       members: {
@@ -41,7 +41,5 @@ export default defineEventHandler(async (event) => {
       },
     },
   });
-
-  console.log(course);
-  return { error, data };
+  return group;
 });
