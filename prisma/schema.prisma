@@ -8,24 +8,26 @@ datasource db {
 }
 
 model profiles {
-  id         String            @id @db.Uuid
-  updatedAt  DateTime?         @db.Timestamptz(6)
+  id         String    @id @db.Uuid
+  updatedAt  DateTime? @db.Timestamptz(6)
   email      String?
-  username   String?           @unique
+  username   String?   @unique
   firstname  String?
   lastname   String?
   avatarLink String?
   website    String?
-  groups     groupenrollment[]
-  loans      invoice[]         @relation(name: "loan")
-  debts      invoice[]         @relation(name: "debt")
+
+  // relation fields
+  groups groupenrollment[]
+  loans  invoice[]         @relation(name: "loan")
+  debts  invoice[]         @relation(name: "debt")
 }
 
 model group {
   id      Int               @id @default(autoincrement()) @db.Oid
   name    String
+  code    String            @unique @default(cuid()) @db.VarChar(30)
   members groupenrollment[]
-  invoice invoice[]
   expense expense[]
 }
 
@@ -48,12 +50,26 @@ model expense {
   updatedAt DateTime? @db.Timestamptz(6)
   name      String
   cost      Float
-  date      DateTime? @db.Timestamptz(6)
+  date      DateTime? @default(now()) @db.Timestamptz(6)
 
   // Relation Fields
-  groupId Int       @db.Oid
-  group   group     @relation(fields: [groupId], references: [id])
-  invoice invoice[]
+  groupId    Int       @db.Oid
+  group      group     @relation(fields: [groupId], references: [id])
+  invoiceId  Int       @unique @db.Oid
+  invoice    invoice?  @relation(fields: [invoiceId], references: [id])
+  category   category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?      @db.Oid
+}
+
+model category {
+  id    Int          @id @default(autoincrement()) @db.Oid
+  name  String
+  icon  String
+  color String
+  type  CategoryType
+
+  // Relation Fields
+  expenses expense[]
 }
 
 model invoice {
@@ -62,17 +78,25 @@ model invoice {
   paid      Boolean  @default(false)
 
   // Relation Fields
-  payeeId   String   @db.Uuid
-  payee     profiles @relation(name: "loan", fields: [payeeId], references: [id])
-  payorId   String   @db.Uuid
-  payor     profiles @relation(name: "debt", fields: [payorId], references: [id])
-  expenseId Int      @db.Oid
-  expense   expense  @relation(fields: [expenseId], references: [id])
-  group     group?   @relation(fields: [groupId], references: [id])
-  groupId   Int      @db.Oid
+  payeeId  String   @db.Uuid
+  payee    profiles @relation(name: "loan", fields: [payeeId], references: [id])
+  payorId  String   @db.Uuid
+  payor    profiles @relation(name: "debt", fields: [payorId], references: [id])
+  expenses expense?
 }
 
 enum TransactionRole {
-  PAYEE
-  PAYOR
+  Admin
+  Basic
+}
+
+enum CategoryType {
+  Food
+  Laundry
+  Grocery
+  Transportation
+  Entertainment
+  Rent
+  Utilities
+  Miscellaneous
 }

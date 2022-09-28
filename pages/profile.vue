@@ -71,6 +71,20 @@
             class="input input-bordered w-full disabled:bg-base-100 disabled:text-[#9ca3af]"
           />
         </div>
+        <div class="w-full">
+          <label class="label">
+            <span class="label-text font-semibold">Join a group</span>
+          </label>
+          <div class="input-group">
+            <input
+              v-model="code"
+              type="text"
+              placeholder="Group Code"
+              class="input input-bordered w-full"
+            />
+            <button class="btn" @click="joinGroup">Go</button>
+          </div>
+        </div>
         <div class="w-full flex justify-end gap-4 mt-4">
           <button class="btn btn-ghost" type="button">
             <nuxt-link> Cancel </nuxt-link>
@@ -104,6 +118,7 @@ const firstname = ref(profile.value.firstname);
 const lastname = ref(profile.value.lastname);
 const username = ref(profile.value.username);
 const email = ref(profile.value.email);
+const code = ref('');
 
 async function updateProfile() {
   const body = {
@@ -123,5 +138,19 @@ async function updateProfile() {
   }
   $toast('Profile updated successfully', 'success');
   store.setProfile(body);
+}
+
+async function joinGroup() {
+  const { error } = await useFetch('/api/group', {
+    method: 'PUT',
+    body: { code: code.value },
+    initialCache: false,
+  });
+
+  if (error.value) {
+    $toast(error.value.message, 'error');
+    return;
+  }
+  $toast('Group joined successfully', 'success');
 }
 </script>

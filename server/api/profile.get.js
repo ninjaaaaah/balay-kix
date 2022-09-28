@@ -23,6 +23,18 @@ export default defineEventHandler(async (event) => {
     where: {
       id: user.id,
     },
+    include: {
+      loans: {
+        include: {
+          expenses: true,
+        },
+      },
+      debts: {
+        include: {
+          expenses: true,
+        },
+      },
+    },
   });
   return profile;
 });

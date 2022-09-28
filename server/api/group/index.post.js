@@ -14,16 +14,26 @@ prisma.$use(async (params, next) => {
 });
 
 export default defineEventHandler(async (event) => {
+  const body = await useBody(event);
   const user = await serverSupabaseUser(event);
   if (!user) {
     throw new Error('Not authorized');
   }
 
-  const group = await prisma.group.findUnique({
-    where: {
-      id: 1,
+  const group = await prisma.group.create({
+    data: {
+      name: body.name ?? 'Sample Group',
+      members: {
+        create: {
+          role: 'Admin',
+          user: {
+            connect: {
+              id: user.id,
+            },
+          },
+        },
+      },
     },
   });
-
   return group;
 });

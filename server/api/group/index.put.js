@@ -20,26 +20,24 @@ export default defineEventHandler(async (event) => {
     throw new Error('Not authorized');
   }
 
-  const profile = await prisma.profiles.findUnique({
+  // insert the current user id to the group with the code provided
+  const group = await prisma.group.update({
     where: {
-      id: user.id,
+      code: body.code,
     },
-  });
-
-  const group = await prisma.group.create({
     data: {
-      name: 'Sample Group',
       members: {
         create: {
-          role: 'PAYOR',
+          role: 'Basic',
           user: {
             connect: {
-              id: profile.id,
+              id: user.id,
             },
           },
         },
       },
     },
   });
+
   return group;
 });

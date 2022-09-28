@@ -9,3 +9,7 @@ dist
 
 # Local Netlify folder
 .netlify
+
+.vercel
+supabase
+vercel.json

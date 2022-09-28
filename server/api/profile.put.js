@@ -20,11 +20,11 @@ export default defineEventHandler(async (event) => {
     throw new Error('Not authorized');
   }
 
-  const { error, data } = await prisma.profiles.upsert({
+  const profile = await prisma.profiles.upsert({
     where: {
       id: user.id,
     },
-    data: body,
+    update: body,
   });
-  return { error, data };
+  return profile;
 });

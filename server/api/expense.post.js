@@ -14,30 +14,31 @@ prisma.$use(async (params, next) => {
 });
 
 export default defineEventHandler(async (event) => {
-  const user = await serverSupabaseUser(event);
-  if (!user) {
-    throw new Error('Not authorized');
-  }
+  const body = await useBody(event);
+  // const user = await serverSupabaseUser(event);
+  // if (!user) {
+  //   throw new Error('Not authorized');
+  // }
 
   const expense = await prisma.expense.create({
     data: {
-      name: 'Egg',
-      cost: 40,
+      name: body?.name ?? 'Egg',
+      cost: body?.cost ?? 40,
       group: {
         connect: {
-          id: 1,
+          id: body?.groupId ?? 1,
         },
       },
       invoice: {
         create: {
           payee: {
             connect: {
-              id: 'd14ccbc1-4878-49fd-a8c3-5e881fcd1397',
+              id: body?.payeeId ?? 'd14ccbc1-4878-49fd-a8c3-5e881fcd1397',
             },
           },
           payor: {
             connect: {
-              id: '83cb3b9a-9a57-41a7-ae8d-d6c4cf9d411a',
+              id: body?.payorId ?? '83cb3b9a-9a57-41a7-ae8d-d6c4cf9d411a',
             },
           },
         },

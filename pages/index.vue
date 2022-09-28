@@ -72,7 +72,7 @@
       <div class="w-4/6 flex flex-col gap-4">
         <div class="bg-base-300 rounded-box p-4 flex flex-col gap-2">
           <div class="flex justify-between items-center px-2">
-            <span class="font-medium">Recent Transactions</span>
+            <span class="font-medium">Recent Expense</span>
             <button
               class="btn btn-ghost btn-sm bg-base-200 capitalize text-base-content-lighter"
             >
@@ -151,8 +151,6 @@ const store = useProfileStore();
 const user = useSupabaseUser();
 
 const name = ref(store.firstname);
-
-console.log(name.value);
 
 async function logout() {
   store.clearProfile();
