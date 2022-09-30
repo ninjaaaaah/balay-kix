@@ -1,0 +1,430 @@
+fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+.multiselect__spinner {
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  width: 48px;
+  height: 35px;
+  background: hsl(var(--b1));
+  border: 1px solid hsl(var(--b2));
+  display: block;
+}
+.multiselect__spinner:after,
+.multiselect__spinner:before {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  border-color: hsl(var(--p)) transparent transparent;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: 0 0 0 1px transparent;
+}
+.multiselect__spinner:before {
+  -webkit-animation: spinning 2.4s cubic-bezier(0.41, 0.26, 0.2, 0.62);
+  animation: spinning 2.4s cubic-bezier(0.41, 0.26, 0.2, 0.62);
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+.multiselect__spinner:after {
+  -webkit-animation: spinning 2.4s cubic-bezier(0.51, 0.09, 0.21, 0.8);
+  animation: spinning 2.4s cubic-bezier(0.51, 0.09, 0.21, 0.8);
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active {
+  transition: opacity 0.4s ease-in-out;
+  opacity: 1;
+}
+.multiselect__loading-enter,
+.multiselect__loading-leave-active {
+  opacity: 0;
+}
+.multiselect,
+.multiselect__input,
+.multiselect__single {
+  font-family: inherit;
+  font-size: 16px;
+  touch-action: manipulation;
+}
+.multiselect {
+  box-sizing: content-box;
+  display: block;
+  position: relative;
+  width: 100%;
+  min-height: 3rem;
+  text-align: left;
+  color: #35495e;
+  border: 1px solid hsl(var(--b2));
+  border-width: 1px;
+  --tw-border-opacity: 0.2;
+  border-color: hsl(var(--bc) / var(--tw-border-opacity));
+  border-radius: var(--rounded-btn, 0.5rem);
+}
+.multiselect * {
+  box-sizing: border-box;
+}
+.multiselect:focus {
+  outline: none;
+}
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+.multiselect--active {
+  z-index: 50;
+}
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.multiselect--active .multiselect__select {
+  transform: rotate(180deg);
+}
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.multiselect__input,
+.multiselect__single {
+  position: relative;
+  display: inline-block;
+  min-height: 20px;
+  line-height: 20px;
+  border: none;
+  border-radius: 5px;
+  background: hsl(var(--b1));
+  color: hsl(var(--bc));
+  width: 100%;
+  transition: border 0.1s ease;
+  box-sizing: border-box;
+  /* margin-top: 0.5rem; */
+  vertical-align: top;
+}
+.multiselect__input::-moz-placeholder {
+  color: #35495e;
+}
+.multiselect__input:-ms-input-placeholder {
+  color: #35495e;
+}
+.multiselect__input::placeholder {
+  color: #35495e;
+}
+.multiselect__tag ~ .multiselect__input,
+.multiselect__tag ~ .multiselect__single {
+  width: auto;
+}
+.multiselect__input:hover,
+.multiselect__single:hover {
+  border-color: #cfcfcf;
+}
+.multiselect__input:focus,
+.multiselect__single:focus {
+  border-color: #a8a8a8;
+  outline: none;
+}
+.multiselect__single {
+  /* padding-left: 5px; */
+  /* margin-bottom: 8px; */
+  margin: 0;
+}
+.multiselect__tags-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.multiselect__tags {
+  min-height: 3rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-width: 1px;
+  border-color: hsl(var(--bc) / var(--tw-border-opacity));
+  --tw-border-opacity: 0;
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--b1) / var(--tw-bg-opacity));
+  border-radius: 0.5rem;
+  border-radius: var(--rounded-btn, 0.5rem);
+  font-size: 14px;
+}
+.multiselect__tag {
+  position: relative;
+  display: inline-block;
+  padding: 4px 26px 4px 10px;
+  border-radius: var(--rounded-btn);
+  /* margin-right: 10px; */
+  color: hsl(var(--pc));
+  line-height: 1;
+  background: hsl(var(--p));
+  /* margin-bottom: 5px; */
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
+}
+.multiselect__tag-icon {
+  cursor: pointer;
+  margin-left: 7px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-weight: 700;
+  font-style: normal;
+  width: 22px;
+  text-align: center;
+  line-height: 22px;
+  transition: all 0.2s ease;
+  border-radius: 5px;
+}
+.multiselect__tag-icon:after {
+  content: '×';
+  color: #hsl(var(--pc));
+  font-size: 14px;
+}
+.multiselect__tag-icon:focus:after,
+.multiselect__tag-icon:hover:after {
+  color: hsl(var(--bc));
+}
+.multiselect__current {
+  min-height: 3rem;
+  overflow: hidden;
+  padding: 8px 12px 0;
+  padding-right: 30px;
+  white-space: nowrap;
+  border-radius: var(--rounded-btn, 0.5rem);
+  border: 1px solid hsl(var(--b2));
+}
+.multiselect__current,
+.multiselect__select {
+  line-height: 16px;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  text-decoration: none;
+  cursor: pointer;
+}
+.multiselect__select {
+  position: absolute;
+  width: 3rem;
+  height: 3rem;
+  right: 1px;
+  top: 1px;
+  padding: 4px 8px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+.multiselect__select:before {
+  position: relative;
+  right: 0;
+  top: 65%;
+  color: #999;
+  margin-top: 4px;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #999 transparent transparent transparent;
+  content: '';
+}
+.multiselect__placeholder {
+  --tw-text-opacity: 0.7;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  display: inline-block;
+  padding-top: 2px;
+}
+.multiselect--active .multiselect__placeholder {
+  display: none;
+}
+.multiselect__content-wrapper {
+  position: absolute;
+  display: block;
+  background-color: hsl(var(--b1));
+  width: 100%;
+  max-height: 240px;
+  overflow: auto;
+  /* border: 1px solid hsl(var(--b2)); */
+  border-top: none;
+  border-bottom-left-radius: var(--rounded-btn, 0.5rem);
+  border-bottom-right-radius: var(--rounded-btn, 0.5rem);
+  z-index: 50;
+  -webkit-overflow-scrolling: touch;
+  --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
+    0 4px 6px -4px var(--tw-shadow-color);
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
+  vertical-align: top;
+}
+.multiselect--above .multiselect__content-wrapper {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: var(--rounded-btn, 0.5rem);
+  border-top-right-radius: var(--rounded-btn, 0.5rem);
+  border-bottom: none;
+  /* border-top: 1px solid #e8e8e8; */
+}
+.multiselect__content::-webkit-scrollbar {
+  display: none;
+}
+.multiselect__element {
+  display: block;
+}
+.multiselect__option {
+  display: block;
+  padding: 12px;
+  min-height: 3rem;
+  line-height: 16px;
+  text-decoration: none;
+  text-transform: none;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.multiselect__option:after {
+  top: 0;
+  right: 0;
+  position: absolute;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
+  font-size: 13px;
+}
+.multiselect__option--highlight {
+  background: hsl(var(--p));
+  outline: none;
+  color: hsl(var(--bc));
+}
+.multiselect__option--highlight:after {
+  content: attr(data-select);
+  background: hsl(var(--p));
+  color: hsl(var(--bc));
+}
+.multiselect__option--selected {
+  background: hsl(var(--b1));
+  color: hsl(var(--bc));
+  font-weight: 600;
+}
+.multiselect__option--selected:after {
+  content: attr(data-selected);
+  --tw-color-opacity: 0.5;
+  color: hsl(var(--bc) / var(--tw-color-opacity));
+}
+.multiselect__option--selected.multiselect__option--highlight {
+  background: hsl(var(--er));
+  color: hsl(var(--erc));
+}
+.multiselect__option--selected.multiselect__option--highlight:after {
+  background: hsl(var(--er));
+  content: attr(data-deselect);
+  color: hsl(var(--erc));
+}
+.multiselect--disabled .multiselect__current,
+.multiselect--disabled .multiselect__select {
+  background: #ededed;
+  color: #a6a6a6;
+}
+.multiselect__option--disabled {
+  background: #ededed !important;
+  color: #a6a6a6 !important;
+  cursor: text;
+  pointer-events: none;
+}
+.multiselect__option--group {
+  background: #ededed;
+  color: #35495e;
+}
+.multiselect__option--group.multiselect__option--highlight {
+  background: #35495e;
+  color: hsl(var(--bc));
+}
+.multiselect__option--group.multiselect__option--highlight:after {
+  background: #35495e;
+}
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede;
+}
+.multiselect__option--group-selected.multiselect__option--highlight {
+  background: hsl(var(--er));
+  color: hsl(var(--bc));
+}
+.multiselect__option--group-selected.multiselect__option--highlight:after {
+  background: hsl(var(--er));
+  content: attr(data-deselect);
+  color: hsl(var(--erc));
+}
+.multiselect-enter-active,
+.multiselect-leave-active {
+  transition: all 0.15s ease;
+}
+.multiselect-enter,
+.multiselect-leave-active {
+  opacity: 0;
+}
+.multiselect__strong {
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+[dir='rtl'] .multiselect {
+  text-align: right;
+}
+[dir='rtl'] .multiselect__select {
+  right: auto;
+  left: 1px;
+}
+[dir='rtl'] .multiselect__tags {
+  padding: 8px 8px 0 40px;
+}
+[dir='rtl'] .multiselect__content {
+  text-align: right;
+}
+[dir='rtl'] .multiselect__option:after {
+  right: auto;
+  left: 0;
+}
+[dir='rtl'] .multiselect__clear {
+  right: auto;
+  left: 12px;
+}
+[dir='rtl'] .multiselect__spinner {
+  right: auto;
+  left: 1px;
+}
+@-webkit-keyframes spinning {
+  0% {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(2turn);
+  }
+}
+@keyframes spinning {
+  0% {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(2turn);
+  }
+}

@@ -8,81 +8,69 @@ datasource db {
 }
 
 model profiles {
-  id         String    @id @db.Uuid
-  updatedAt  DateTime? @db.Timestamptz(6)
+  id         String            @id @db.Uuid
+  updatedAt  DateTime?         @db.Timestamptz(6)
   email      String?
-  username   String?   @unique
+  username   String?           @unique
   firstname  String?
   lastname   String?
   avatarLink String?
   website    String?
-
-  // relation fields
-  groups groupenrollment[]
-  loans  invoice[]         @relation(name: "loan")
-  debts  invoice[]         @relation(name: "debt")
+  groups     groupenrollment[]
+  loans      invoice[]         @relation("loan")
+  debts      invoice[]         @relation("debt")
 }
 
 model group {
   id      Int               @id @default(autoincrement()) @db.Oid
   name    String
   code    String            @unique @default(cuid()) @db.VarChar(30)
-  members groupenrollment[]
   expense expense[]
+  members groupenrollment[]
 }
 
 model groupenrollment {
   createdAt DateTime        @default(now())
   role      TransactionRole
-
-  // Relation Fields
-  userId  String   @db.Uuid
-  groupId Int      @db.Oid
-  user    profiles @relation(fields: [userId], references: [id])
-  group   group    @relation(fields: [groupId], references: [id])
+  userId    String          @db.Uuid
+  groupId   Int             @db.Oid
+  details   group           @relation(fields: [groupId], references: [id])
+  user      profiles        @relation(fields: [userId], references: [id])
 
   @@id([userId, groupId])
   @@index([userId, role])
 }
 
 model expense {
-  id        Int       @id @default(autoincrement()) @db.Oid
-  updatedAt DateTime? @db.Timestamptz(6)
-  name      String
-  cost      Float
-  date      DateTime? @default(now()) @db.Timestamptz(6)
-
-  // Relation Fields
-  groupId    Int       @db.Oid
-  group      group     @relation(fields: [groupId], references: [id])
-  invoiceId  Int       @unique @db.Oid
-  invoice    invoice?  @relation(fields: [invoiceId], references: [id])
-  category   category? @relation(fields: [categoryId], references: [id])
-  categoryId Int?      @db.Oid
+  id         Int        @id @default(autoincrement()) @db.Oid
+  updatedAt  DateTime?  @db.Timestamptz(6)
+  name       String
+  cost       Float
+  date       DateTime?  @default(now()) @db.Timestamptz(6)
+  groupId    Int        @db.Oid
+  group      group      @relation(fields: [groupId], references: [id])
+  categories category[]
+  invoices   invoice[]
 }
 
 model category {
-  id    Int          @id @default(autoincrement()) @db.Oid
-  name  String
-  icon  String
-  color String
-  type  CategoryType
-
-  // Relation Fields
+  id       Int          @id @default(autoincrement()) @db.Oid
+  icon     String
+  color    String
+  name     CategoryName
   expenses expense[]
 }
 
 model invoice {
-  id        Int      @id @default(autoincrement()) @db.Oid
-  createdAt DateTime @default(now())
-  paid      Boolean  @default(false)
-
-  // Relation Fields
-  payeeId  String   @db.Uuid
-  payee    profiles @relation(name: "loan", fields: [payeeId], references: [id])
-  payorId  String   @db.Uuid
-  payor    profiles @relation(name: "debt", fields: [payorId], references: [id])
-  expenses expense?
+  id        Int       @id @default(autoincrement()) @db.Oid
+  createdAt DateTime  @default(now())
+  paid      Boolean   @default(false)
+  payeeId   String    @db.Uuid
+  payorId   String    @db.Uuid
+  amount    Float     @default(0)
+  payee     profiles  @relation("loan", fields: [payeeId], references: [id])
+  payor     profiles  @relation("debt", fields: [payorId], references: [id])
+  expenses  expense[]
 }
 
 enum TransactionRole {
@@ -90,7 +78,7 @@ enum TransactionRole {
   Basic
 }
 
-enum CategoryType {
+enum CategoryName {
   Food
   Laundry
   Grocery

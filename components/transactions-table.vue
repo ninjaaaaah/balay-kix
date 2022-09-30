@@ -1,6 +1,6 @@
 <template>
   <table class="table w-full text-sm table-compact">
-    <tbody>
+    <tbody v-auto-animate>
       <!-- row 1 -->
       <tr>
         <th>

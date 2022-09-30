@@ -8,6 +8,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.3",
     "@nuxtjs/color-mode": "^3.1.5",
     "@nuxtjs/supabase": "^0.1.25",
     "@nuxtjs/tailwindcss": "^5.3.3",
@@ -20,6 +21,7 @@
     "nuxt-icon": "^0.1.5",
     "pinia-plugin-persistedstate": "^2.2.0",
     "save": "^2.5.0",
+    "vue-multiselect": "^3.0.0-alpha.2",
     "vue-toastification": "^2.0.0-rc.5",
     "webpack": "5.0.0"
   },

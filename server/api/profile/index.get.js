@@ -23,15 +23,32 @@ export default defineEventHandler(async (event) => {
     where: {
       id: user.id,
     },
-    include: {
+    select: {
+      avatarLink: true,
+      email: true,
+      firstname: true,
+      lastname: true,
+      username: true,
+      website: true,
       loans: {
-        include: {
+        select: {
           expenses: true,
         },
       },
       debts: {
-        include: {
+        select: {
           expenses: true,
+        },
+      },
+      groups: {
+        select: {
+          role: true,
+          details: {
+            select: {
+              name: true,
+              code: true,
+            },
+          },
         },
       },
     },

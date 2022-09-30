@@ -21,6 +21,10 @@
         </div>
       </div>
     </div>
+    <teleport to="body">
+      <create-group-modal />
+      <join-group-modal />
+    </teleport>
   </div>
 </template>
 
@@ -39,5 +43,5 @@ const store = useProfileStore();
 const user = supabase.auth.user();
 console.log(user.id);
 
-const { data: profile } = await useFetch('/api/profile');
+const { data: group } = await useFetch('/api/group');
 </script>

@@ -18,6 +18,7 @@ export default defineNuxtConfig({
   tailwindcss: {
     cssPath: '~/assets/css/main.css',
   },
+  css: ['~/assets/css/multiselect.css'],
   supabase: {
     client: {
       cookieOptions: {

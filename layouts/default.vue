@@ -19,8 +19,5 @@
         <drawer-content />
       </div>
     </div>
-    <add-expense-modal />
-    <join-group-modal />
-    <create-group-modal />
   </div>
 </template>

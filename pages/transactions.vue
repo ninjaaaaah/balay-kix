@@ -16,6 +16,4 @@ definePageMeta({
 });
 
 const { data: group } = await useFetch('/api/group');
-
-console.log(group);
 </script>

@@ -20,30 +20,42 @@ export default defineEventHandler(async (event) => {
   //   throw new Error('Not authorized');
   // }
 
+  console.log(body);
+
+  // map the payeeId to each payorId
   const expense = await prisma.expense.create({
     data: {
-      name: body?.name ?? 'Egg',
-      cost: body?.cost ?? 40,
       group: {
         connect: {
-          id: body?.groupId ?? 1,
+          id: body.groupId,
         },
       },
-      invoice: {
-        create: {
+      name: body.name,
+      date: new Date(body.date),
+      cost: parseFloat(body.cost),
+      // connect categories to the expense
+      categories: {
+        connect: body.categories.map((category) => ({
+          id: category.id,
+        })),
+      },
+      invoices: {
+        create: body.payors.map((payor) => ({
+          amount: parseFloat(body.cost / body.payors.length),
           payee: {
             connect: {
-              id: body?.payeeId ?? 'd14ccbc1-4878-49fd-a8c3-5e881fcd1397',
+              id: body.payee.id,
             },
           },
           payor: {
             connect: {
-              id: body?.payorId ?? '83cb3b9a-9a57-41a7-ae8d-d6c4cf9d411a',
+              id: payor.id,
             },
           },
-        },
+        })),
       },
     },
   });
+
   return expense;
 });
