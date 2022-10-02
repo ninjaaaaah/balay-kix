@@ -1,5 +1,11 @@
 module.exports = {
-  plugins: [require('daisyui')],
+  plugins: [require('daisyui'), require('tailwind-scrollbar-hide')],
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+      cursor: ['disabled'],
+    },
+  },
   theme: {
     fontFamily: {
       sans: ['Poppins', 'sans-serif'],

@@ -44,7 +44,8 @@
             <div class="avatar pr-2">
               <div class="w-8 rounded-full">
                 <img
-                  src="https://placeimg.com/192/192/people"
+                  :src="`https://avatars.dicebear.com/api/adventurer/${user.id}.svg?scale=100`"
+                  class="rounded-full w-8 h-8 bg-base-100"
                   alt="Tailwind-CSS-Avatar-component"
                 />
               </div>

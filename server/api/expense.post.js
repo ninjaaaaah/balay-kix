@@ -15,10 +15,10 @@ prisma.$use(async (params, next) => {
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
-  // const user = await serverSupabaseUser(event);
-  // if (!user) {
-  //   throw new Error('Not authorized');
-  // }
+  const user = await serverSupabaseUser(event);
+  if (!user) {
+    throw new Error('Not authorized');
+  }
 
   console.log(body);
 
@@ -52,6 +52,7 @@ export default defineEventHandler(async (event) => {
               id: payor.id,
             },
           },
+          paid: body.payee.id === payor.id,
         })),
       },
     },

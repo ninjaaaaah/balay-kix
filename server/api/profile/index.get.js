@@ -32,12 +32,12 @@ export default defineEventHandler(async (event) => {
       website: true,
       loans: {
         select: {
-          expenses: true,
+          expense: true,
         },
       },
       debts: {
         select: {
-          expenses: true,
+          expense: true,
         },
       },
       groups: {

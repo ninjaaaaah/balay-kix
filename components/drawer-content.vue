@@ -26,9 +26,9 @@
       </nuxt-link>
     </li>
     <li class="font-semibold text-base-content">
-      <nuxt-link to="/transactions">
+      <nuxt-link to="/invoices">
         <Icon name="icon-park-outline:transaction-order" size="1.5em" />
-        Transactions
+        Invoices
       </nuxt-link>
     </li>
     <li class="font-semibold text-base-content">

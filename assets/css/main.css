@@ -4,7 +4,7 @@
 @tailwind utilities;
 
 .router-link-active {
-  @apply bg-primary text-primary-content rounded-md;
+  @apply rounded-md bg-primary text-primary-content;
 }
 
 #gradient-horizontal {
@@ -35,9 +35,14 @@
 
 .table :where(tbody th, tbody td, thead th) {
   --tw-bg-opacity: 1;
-  background-color: transparent;
+  background-color: hsl(var(--b3) / var(--tw-bg-opacity));
 }
 
+.table:where(:not(.table-zebra))
+  :where(thead, tbody, tfoot)
+  :where(tr:not(:last-child) :where(th, td)) {
+  border-bottom-width: 0px;
+}
 .text-base-content {
   --tw-text-opacity: 0.5;
 }
@@ -48,4 +53,40 @@ tr > th {
 
 ::-webkit-calendar-picker-indicator {
   display: none;
+}
+
+.badge-error {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--er) / var(--tw-bg-opacity));
+  border-color: hsl(var(--er) / var(--tw-bg-opacity));
+}
+
+.badge-accent {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--a) / var(--tw-bg-opacity));
+  border-color: hsl(var(--a) / var(--tw-bg-opacity));
+}
+
+.badge-primary {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--p) / var(--tw-bg-opacity));
+  border-color: hsl(var(--p) / var(--tw-bg-opacity));
+}
+
+.badge-secondary {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--s) / var(--tw-bg-opacity));
+  border-color: hsl(var(--s) / var(--tw-bg-opacity));
+}
+
+.badge-info {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--in) / var(--tw-bg-opacity));
+  border-color: hsl(var(--in) / var(--tw-bg-opacity));
+}
+
+.badge-warning {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--wa) / var(--tw-bg-opacity));
+  border-color: hsl(var(--wa) / var(--tw-bg-opacity));
 }

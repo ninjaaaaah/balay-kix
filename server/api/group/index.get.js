@@ -25,13 +25,26 @@ export default defineEventHandler(async (event) => {
     },
     select: {
       name: true,
+      members: {
+        select: {
+          role: true,
+          user: {
+            select: {
+              id: true,
+              firstname: true,
+              lastname: true,
+            },
+          },
+        },
+      },
       expense: {
         select: {
           cost: true,
           date: true,
           name: true,
+          categories: true,
           updatedAt: true,
-          invoice: {
+          invoices: {
             select: {
               id: true,
               paid: true,

@@ -12,7 +12,7 @@
 <script setup>
 definePageMeta({
   layout: 'default',
-  title: 'Transactions',
+  title: 'Invoices',
 });
 
 const { data: group } = await useFetch('/api/group');

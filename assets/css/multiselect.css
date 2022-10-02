@@ -142,8 +142,10 @@ fieldset[disabled] .multiselect {
 }
 .multiselect__tags-wrap {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 0.5rem;
+  overflow-x: scroll;
+  width: 80%;
 }
 .multiselect__tags {
   min-height: 3rem;
@@ -162,7 +164,7 @@ fieldset[disabled] .multiselect {
 }
 .multiselect__tag {
   position: relative;
-  display: inline-block;
+  display: inline-table;
   padding: 4px 26px 4px 10px;
   border-radius: var(--rounded-btn);
   /* margin-right: 10px; */

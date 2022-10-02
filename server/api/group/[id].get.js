@@ -60,6 +60,9 @@ export default defineEventHandler(async (event) => {
             },
           },
         },
+        orderBy: {
+          date: 'asc',
+        },
       },
     },
   });

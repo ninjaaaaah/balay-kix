@@ -5,61 +5,8 @@
     class="modal-toggle"
     @click="toggleModal"
   />
-  <label for="add-expense-modal" class="modal cursor-pointer" v-auto-animate>
-    <label class="modal-box relative" for="">
-      <div>
-        <label class="label">
-          <span class="label-text">Item name</span>
-        </label>
-        <input
-          v-model="name"
-          type="text"
-          placeholder="(e.g. Yakult)"
-          class="input input-bordered w-full"
-        />
-      </div>
-      <div>
-        <label class="label">
-          <span class="label-text">Cost</span>
-        </label>
-        <input
-          v-model="cost"
-          type="text"
-          placeholder="(e.g. 25)"
-          class="input input-bordered w-full"
-        />
-      </div>
-      <div>
-        <label class="label">
-          <span class="label-text">Date</span>
-        </label>
-        <input
-          v-model="date"
-          type="date"
-          placeholder="mm/dd/yyyy"
-          class="input input-bordered w-full"
-        />
-      </div>
-      <div>
-        <label class="label">
-          <span class="label-text">Category</span>
-        </label>
-        <VueMultiselect
-          v-model="categories"
-          :options="availableCategories"
-          :searchable="false"
-          :multiple="true"
-          :close-on-select="false"
-          :showNoResults="false"
-          :showNoOptions="false"
-          v-auto-animate
-          placeholder="Category"
-          label="name"
-          track-by="name"
-        >
-          <span slot="noResult"> No option found. </span>
-        </VueMultiselect>
-      </div>
+  <label for="add-expense-modal" class="cursor-pointer modal" v-auto-animate>
+    <label class="relative flex flex-col gap-2 modal-box" for="">
       <div>
         <label class="label">
           <span class="label-text">Payee</span>
@@ -98,6 +45,70 @@
         >
           <span slot="noResult"> No option found. </span>
         </VueMultiselect>
+      </div>
+      <div>
+        <label class="label">
+          <span class="label-text">Date</span>
+        </label>
+        <input
+          v-model="date"
+          type="date"
+          placeholder="mm/dd/yyyy"
+          class="w-full input input-bordered"
+        />
+      </div>
+      <div class="flex gap-2">
+        <div class="w-2/6">
+          <label class="label">
+            <span class="label-text">Item name</span>
+          </label>
+          <input
+            v-model="name"
+            type="text"
+            placeholder="Yakult"
+            class="w-full input input-bordered"
+          />
+        </div>
+        <div class="w-1/6">
+          <label class="label">
+            <span class="label-text">Cost</span>
+          </label>
+          <input
+            v-model="cost"
+            type="text"
+            placeholder="25"
+            class="w-full input input-bordered"
+          />
+        </div>
+        <div class="w-3/6 grow-0">
+          <label class="label">
+            <span class="label-text">Category</span>
+          </label>
+          <VueMultiselect
+            v-model="categories"
+            :options="availableCategories"
+            :searchable="false"
+            :multiple="true"
+            :close-on-select="false"
+            :showNoResults="false"
+            :showNoOptions="false"
+            v-auto-animate
+            placeholder="Category"
+            label="name"
+            track-by="name"
+          >
+            <span slot="noResult"> No option found. </span>
+          </VueMultiselect>
+        </div>
+      </div>
+      <div>
+        <t-rich-select
+          multiple
+          :close-on-select="false"
+          :options="['Option A', 'Option B', 'Option C', 'Option D']"
+          placeholder="Select multiple options"
+          :value="['Option B', 'Option C']"
+        />
       </div>
       <div class="modal-action">
         <label

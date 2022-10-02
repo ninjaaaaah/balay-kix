@@ -62,15 +62,16 @@ model category {
 }
 
 model invoice {
-  id        Int       @id @default(autoincrement()) @db.Oid
-  createdAt DateTime  @default(now())
-  paid      Boolean   @default(false)
-  payeeId   String    @db.Uuid
-  payorId   String    @db.Uuid
-  amount    Float     @default(0)
-  payee     profiles  @relation("loan", fields: [payeeId], references: [id])
-  payor     profiles  @relation("debt", fields: [payorId], references: [id])
-  expenses  expense[]
+  id        Int      @id @default(autoincrement()) @db.Oid
+  createdAt DateTime @default(now())
+  paid      Boolean  @default(false)
+  payeeId   String   @db.Uuid
+  payorId   String   @db.Uuid
+  amount    Float    @default(0)
+  payee     profiles @relation("loan", fields: [payeeId], references: [id])
+  payor     profiles @relation("debt", fields: [payorId], references: [id])
+  expense   expense  @relation(fields: [expenseId], references: [id])
+  expenseId Int      @db.Oid
 }
 
 enum TransactionRole {
