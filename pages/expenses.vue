@@ -13,8 +13,8 @@
     <div
       class="flex flex-col gap-4 p-4 overflow-x-auto bg-base-300 rounded-box"
     >
-      <table class="table w-full text-sm table-compact">
-        <thead class="bg-transparent">
+      <table class="relative table w-full text-sm">
+        <thead class="sticky top-[-1rem] z-20 bg-transparent">
           <tr>
             <th class="text-left" rowspan="2">Item</th>
             <th class="text-left" rowspan="2">Date</th>
@@ -36,7 +36,7 @@
         </thead>
         <tbody v-auto-animate>
           <!-- row 1 -->
-          <tr v-for="expense in group.expense">
+          <tr v-for="expense in group.expense" :key="expense.id">
             <th>
               <div class="flex items-center gap-4">
                 {{ expense.name }}
@@ -59,12 +59,19 @@
               </div>
             </td>
             <td>
-              <div class="flex gap-2 overflow-x-scroll w-52 scrollbar-hide">
+              <div class="flex gap-2">
                 <span
-                  v-for="category in expense.categories"
+                  v-for="category in getShownCategories(expense)"
                   :class="`badge badge-sm badge-${category.color} text-${category.color}-content`"
                 >
                   {{ category.name }}
+                </span>
+                <span
+                  class="badge badge-ghost badge-sm tooltip tooltip-right"
+                  v-if="getTruncatedCategories(expense).length > 0"
+                  :data-tip="getTruncatedCategories(expense).join(', ')"
+                >
+                  + {{ getTruncatedCategories(expense).length }}
                 </span>
               </div>
             </td>
@@ -117,16 +124,42 @@ const { data: group, refresh } = await useFetch('/api/group/1');
 const { data: expenses } = await useFetch('/api/expense');
 
 const handleUpdates = (payload) => {
-  console.log('Change received!', payload);
-  refresh();
+  // update the old data with the new data
+  group.value.expense = group.value.expense.map((expense) => {
+    if (expense.id === payload.new.id) {
+      return payload.new;
+    }
+    return expense;
+  });
 };
 
-const handleDelete = () => {
-  console.log('Delete received!');
-  refresh();
+const handleInserts = async (payload) => {
+  console.log(`/api/group/${group.value.id}/expense/${payload.new.id}`);
+  const { data: newExpense } = await useFetch(
+    `/api/group/${group.value.id}/expense/${payload.new.id}`
+  );
+  payload.new = newExpense.value;
+  console.log(payload);
+  console.log(newExpense.value);
+  group.value.expense = [...group.value.expense, payload.new];
+
+  group.value.expense = group.value.expense.sort((a, b) => {
+    return -(new Date(b.date) - new Date(a.date));
+  });
 };
 
-supabase.from('expense').on('*', handleUpdates).subscribe();
+const handleDeletes = (payload) => {
+  group.value.expense = group.value.expense.filter(
+    (expense) => expense.id !== payload.old.id
+  );
+};
+
+supabase
+  .from('expense')
+  .on('UPDATE', handleUpdates)
+  .on('INSERT', handleInserts)
+  .on('DELETE', handleDeletes)
+  .subscribe();
 
 const members = group.value.members.map((member) => {
   const { id, firstname, lastname } = member.user;
@@ -136,5 +169,19 @@ const members = group.value.members.map((member) => {
 function getPayors(expense) {
   const payors = expense.invoices.map((invoice) => invoice.payor.firstname);
   return payors;
+}
+
+// get the first two categories from the expense categories
+// and return the color and name
+function getShownCategories(expense) {
+  console.log(expense);
+  const shown = expense.categories.slice(0, 2);
+  return shown;
+}
+
+function getTruncatedCategories(expense) {
+  const truncated = expense.categories.slice(2);
+  const names = truncated.map((category) => category.name);
+  return names;
 }
 </script>

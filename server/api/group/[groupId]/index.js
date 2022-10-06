@@ -13,7 +13,7 @@ prisma.$use(async (params, next) => {
 });
 
 export default defineEventHandler(async (event) => {
-  const groupId = parseInt(event.context.params.id);
+  const groupId = parseInt(event.context.params.groupId);
   console.log(groupId);
 
   const group = await prisma.group.findUnique({
@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
       id: groupId,
     },
     select: {
+      id: true,
       name: true,
       members: {
         select: {
@@ -36,6 +37,7 @@ export default defineEventHandler(async (event) => {
       },
       expense: {
         select: {
+          id: true,
           cost: true,
           date: true,
           name: true,

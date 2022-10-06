@@ -90,3 +90,23 @@ tr > th {
   background-color: hsl(var(--wa) / var(--tw-bg-opacity));
   border-color: hsl(var(--wa) / var(--tw-bg-opacity));
 }
+
+.badge-success {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--su) / var(--tw-bg-opacity));
+  border-color: hsl(var(--su) / var(--tw-bg-opacity));
+}
+
+.tooltip:before {
+  border-radius: var(--rounded-btn);
+}
+
+.bg-neutral {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--bc) / var(--tw-bg-opacity));
+}
+
+.text-neutral-content {
+  --tw-text-opacity: 1;
+  color: hsl(var(--b1) / var(--tw-text-opacity));
+}

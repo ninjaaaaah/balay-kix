@@ -144,7 +144,7 @@ fieldset[disabled] .multiselect {
   display: flex;
   /* flex-wrap: wrap; */
   gap: 0.5rem;
-  overflow-x: scroll;
+  overflow-x: auto;
   width: 80%;
 }
 .multiselect__tags {
@@ -315,12 +315,12 @@ fieldset[disabled] .multiselect {
 .multiselect__option--highlight {
   background: hsl(var(--p));
   outline: none;
-  color: hsl(var(--bc));
+  color: hsl(var(--pc));
 }
 .multiselect__option--highlight:after {
   content: attr(data-select);
   background: hsl(var(--p));
-  color: hsl(var(--bc));
+  color: hsl(var(--pc));
 }
 .multiselect__option--selected {
   background: hsl(var(--b1));
