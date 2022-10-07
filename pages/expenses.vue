@@ -11,7 +11,7 @@
       </label>
     </div>
     <div
-      class="flex flex-col gap-4 p-4 overflow-x-auto bg-base-300 rounded-box"
+      class="flex flex-col gap-4 p-4 overflow-x-auto scrollbar-hide bg-base-300 rounded-box"
     >
       <table class="relative table w-full text-sm">
         <thead class="sticky top-[-1rem] z-20 bg-transparent">
@@ -121,7 +121,6 @@ const supabase = useSupabaseClient();
 
 const { data: categories } = await useFetch('/api/categories');
 const { data: group, refresh } = await useFetch('/api/group/1');
-const { data: expenses } = await useFetch('/api/expense');
 
 const handleUpdates = (payload) => {
   // update the old data with the new data
@@ -134,18 +133,30 @@ const handleUpdates = (payload) => {
 };
 
 const handleInserts = async (payload) => {
-  console.log(`/api/group/${group.value.id}/expense/${payload.new.id}`);
-  const { data: newExpense } = await useFetch(
-    `/api/group/${group.value.id}/expense/${payload.new.id}`
-  );
+  console.log(`/api/expense/${payload.new.id}`);
+  const { data: newExpense } = await useFetch(`/api/expense/${payload.new.id}`);
   payload.new = newExpense.value;
   console.log(payload);
   console.log(newExpense.value);
   group.value.expense = [...group.value.expense, payload.new];
 
   group.value.expense = group.value.expense.sort((a, b) => {
-    return -(new Date(b.date) - new Date(a.date));
+    return (
+      -(new Date(b.date) - new Date(a.date)) || a.name.localeCompare(b.name)
+    );
   });
+
+  // sort the expenses by date then by name
+
+  // group.value.expense = group.value.expense.sort((a, b) => {
+  //   return -(new Date(b.date) - new Date(a.date));
+  // });
+
+  // group.value.expense = group.value.expense.sort((a, b) => {
+  //   if (a.name < b.name) {
+  //     return -1;
+  //   }
+  //   if (a.name > b.name) {
 };
 
 const handleDeletes = (payload) => {
@@ -153,6 +164,8 @@ const handleDeletes = (payload) => {
     (expense) => expense.id !== payload.old.id
   );
 };
+
+//subscribe to realtime updates from supabase on the expense table and include relational fields
 
 supabase
   .from('expense')

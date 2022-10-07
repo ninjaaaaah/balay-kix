@@ -22,8 +22,33 @@ export default defineEventHandler(async (event) => {
 
   const expense = await prisma.expense.findUnique({
     where: {
-      groupId: 1,
       id: expenseId,
+    },
+    select: {
+      id: true,
+      cost: true,
+      date: true,
+      name: true,
+      categories: true,
+      updatedAt: true,
+      invoices: {
+        select: {
+          id: true,
+          paid: true,
+          payee: {
+            select: {
+              id: true,
+              firstname: true,
+            },
+          },
+          payor: {
+            select: {
+              id: true,
+              firstname: true,
+            },
+          },
+        },
+      },
     },
   });
 

@@ -62,9 +62,7 @@ export default defineEventHandler(async (event) => {
             },
           },
         },
-        orderBy: {
-          date: 'asc',
-        },
+        orderBy: [{ date: 'asc' }, { name: 'asc' }],
       },
     },
   });
